@@ -36,18 +36,19 @@ route_blueprint = Blueprint("routes", __name__)
 
 @route_blueprint.route('/', methods=['GET'])
 def index():
-    """Render the main interface HTML page."""
-    return render_template("interface_package.html")
+    """Render the index HTML page."""
+    return render_template("index.html")
 
 
-@route_blueprint.route('/about',methods=['GET'])
+@route_blueprint.route('/about', methods=['GET'])
 def about():
-    return render_template("info.html")
+    """Render the about HTML page."""
+    return render_template("about.html")
 
 
 @route_blueprint.route('/search', methods=['POST'])
 def search():
-    """Handle search queries from the interface."""
+    """Handle search queries."""
     data = request.get_json()
     search_value = data.get('query', '').lower().strip()
     search_type = data.get('category', '').lower().strip()
@@ -58,7 +59,7 @@ def search():
         "patient_name": ["hgvs", "gene_symbol", "classification"],
         "classification": ["hgvs"],
         "gene_symbol": ["hgvs", "classification", "name"],
-        "variant": "special",  # handled separately
+        "variant": None,  # handled separately
     }
 
     logger.info(f"User searched for: {search_value}, category: {search_type}")

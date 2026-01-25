@@ -78,7 +78,7 @@ def test_index_route(client, monkeypatch):
     response = client.get("/")
 
     assert response.status_code == 200
-    assert b"interface_package.html" in response.data
+    assert b"index.html" in response.data
 
 
 def test_about_route(client, monkeypatch):
@@ -93,7 +93,7 @@ def test_about_route(client, monkeypatch):
     response = client.get("/about")
 
     assert response.status_code == 200
-    assert b"info.html" in response.data
+    assert b"about.html" in response.data
 
 # Search Route
 

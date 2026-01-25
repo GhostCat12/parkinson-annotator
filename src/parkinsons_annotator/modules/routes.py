@@ -51,8 +51,8 @@ def search():
     """Handle search queries."""
     data = request.get_json()
     search_value = data.get('query', '').lower().strip()
-    search_type = data.get('category', '').lower().strip()
-    search_cat = data.get('searchCat', '').lower().strip()
+    search_category = data.get('searchCategory', '').lower().strip()
+    search_classification = data.get('searchClassification', '').lower().strip()
 
     #Specify column orders to display in Flask for each search category
     column_orders = {
@@ -62,11 +62,11 @@ def search():
         "variant": None,  # handled separately
     }
 
-    logger.info(f"User searched for: {search_value}, category: {search_type}")
+    logger.info(f"User searched for: {search_value}, category: {search_category}")
 
     # Call the database search function
     try:
-        results = database_list(search_type=search_type, search_value=search_value, search_cat=search_cat)
+        results = database_list(search_category=search_category, search_value=search_value, search_classification=search_classification)
     except SearchFieldEmptyError:
         return jsonify({"message": "Missing search fields"}), 400
     except NoMatchingRecordsError:
@@ -76,7 +76,7 @@ def search():
         return jsonify({"message": "Internal server error"}), 500
 
     # Special handling for variant searches which return 2 tables:
-    if search_type == 'variant':
+    if search_category == 'variant':
         # results = [(VariantORM, "patient1"), (VariantORM, "patient2"), ...]
         variant_object = results[0][0]  # get first ORM object in list, contains variant info
         patient_list = [row[1] for row in results]  # get list of patient names from all rows
@@ -104,7 +104,7 @@ def search():
 
     # Other search types:
     else:
-        column_order = column_orders.get(search_type)
+        column_order = column_orders.get(search_category)
         return jsonify({
             "column_order": column_order,
             "results": results

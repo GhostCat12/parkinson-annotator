@@ -1,7 +1,13 @@
-0. Check installation
+~~0. Check installation~~
+5. Fix HTML
 1. Add pie chart
 2. Add multi upload
 3. Use material UI
 4. Make purty
-5. Fix HTML
-5a. Fix classification dropdown position
+~~5a. Fix classification dropdown position~~
+
+
+
+Look at VariantORM
+Validate file.save worked
+Global dataframes?

@@ -1,48 +1,149 @@
 {% extends "base.html" %}
 {% block content %}
 
+<h2>Parkinson Annotator</h2>
+<h4>Welcome to the database!</h4>
+
+<div class="mui-panel">
+  <p>Upload new patient data</p>
+  <form id="upload-form" class="mui-form" action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" id="upload-file-input" class="mui-input" required>
+    <button type="submit" id="upload-btn" class="mui-btn mui-btn--primary">Upload</button>
+    <div id="loading" class="spinner" style="display: none;"></div>
+  </form>
+</div>
+
+<div class="mui-panel">
+  <p>Search the database</p>
+  <form id="search-form" class="mui-form">
+    <div class="mui-select">
+      <select id="search-category" required>
+        <option value="" disabled selected>Select category</option>
+        <option value="variant">Variant</option>
+        <option value="gene_symbol">Gene Symbol</option>
+        <option value="patient_name">Patient Name</option>
+        <option value="classification">Classification</option>
+      </select>
+    </div>
+
+    <input type="text" id="search-box" class="mui-input" placeholder="Search..." required>
+    <div class="mui-select">
+      <select id="search-classification-dropdown" class="mui-select" style="display:none;">
+        <option value="" disabled selected>Select classification</option>
+        <option value="pathogenic">Pathogenic</option>
+        <option value="likely_pathogenic">Likely Pathogenic</option>
+        <option value="benign">Benign</option>
+        <option value="likely_benign">Likely Benign</option>
+        <option value="uncertain_significance">Uncertain Significance</option>
+        <option value="conflicting_classifications_of_pathogenicity">Conflicting Classifications of Pathogenicity</option>
+        <option value="not_provided">Not Provided</option>
+        <option value="not_found_in_clinvar">Not Found in Clinvar</option>
+      </select>
+    </div>
+    <button type="submit" class="mui-btn mui-btn--primary">Search</button>
+  </form>
+</div>
+
+<div class="mui-panel" id="categories-panel">
+  <p>Search Categories Information</p>
+  <div class="categories-container">
+    <div class="category-box">
+      <h4>Variant Search</h4>
+      <p><strong>Input:</strong> VCF or HGVF format.</p>
+      <p><strong>Output:</strong> All patients with that variant and ClinVar information.</p>
+    </div>
+    <div class="category-box">
+      <h4>Gene Symbol Search</h4>
+      <p><strong>Input:</strong> Gene symbol.</p>
+      <p><strong>Output:</strong> All patients and their variants found in that gene, plus classification.</p>
+    </div>
+    <div class="category-box">
+      <h4>Patient Search</h4>
+      <p><strong>Input:</strong> Patient name.</p>
+      <p><strong>Output:</strong> All variants for that patient, their classifications and corresponding gene symbol.</p>
+    </div>
+    <div class="category-box">
+      <h4>Classification Search</h4>
+      <p><strong>Input:</strong> Select classification from list.</p>
+      <p><strong>Output:</strong> All variants in database with that classification.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="mui-panel" id="results-panel">
+  <div class="mui-container-fluid">
+    <div class="mui-row">
+      <div class="mui-col-md-12 mui--text-center" id="result-header">
+        <h3>Results</h3>
+      </div>
+    </div>
+    <div class="mui-row">
+      <div class="mui-col-md-6" id="results"></div>
+      <div class="mui-col-md-6" id="patient-list"></div>
+      <div class="mui-col-md-6" id="variant-dict"></div>
+      <div class="mui-col-md-6" id="piechart"></div>
+  </div>
+  <div id="results"></div>
+  <div id="patient-list"></div>
+  <div id="variant-dict"></div>
+  <div id="piechart" style="width: 900px; height: 500px;"></div>
+</div>
+
+
+
+
+
+
+<!-- 
 <h2>Welcome to the Dataset</h2>
 <h4>Please search the database here</h4>
 
-<form id="search-form">
-  <select id="search-category" required>
-    <option value="" disabled selected>Select category</option>
-    <option value="variant">Variant</option>
-    <option value="gene_symbol">Gene Symbol</option>
-    <option value="patient_name">Patient Name</option>
-    <option value="classification">Classification</option>
-  </select>
+<form id="search-form" class="mui-form">
+  <div class="mui-select">
+    <select id="search-category" required>
+      <option value="" disabled selected>Select category</option>
+      <option value="variant">Variant</option>
+      <option value="gene_symbol">Gene Symbol</option>
+      <option value="patient_name">Patient Name</option>
+      <option value="classification">Classification</option>
+    </select>
+  </div>
 
-  <input type="text" id="search-box" placeholder="Search..." required>
-  <select id="search-classification-dropdown" style="display:none;">
-    <option value="" disabled selected>Select classification</option>
-    <option value="pathogenic">Pathogenic</option>
-    <option value="likely_pathogenic">Likely Pathogenic</option>
-    <option value="benign">Benign</option>
-    <option value="likely_benign">Likely Benign</option>
-    <option value="uncertain_significance">Uncertain Significance</option>
-    <option value="conflicting_classifications_of_pathogenicity">Conflicting Classifications of Pathogenicity</option>
-    <option value="not_provided">Not Provided</option>
-    <option value="not_found_in_clinvar">Not Found in Clinvar</option>
-  </select>
-  <button type="submit">Search</button>
+  <input type="text" id="search-box" class="mui-input" placeholder="Search..." required>
+  <div class="mui-select">
+    <select id="search-classification-dropdown" class="mui-select" style="display:none;">
+      <option value="" disabled selected>Select classification</option>
+      <option value="pathogenic">Pathogenic</option>
+      <option value="likely_pathogenic">Likely Pathogenic</option>
+      <option value="benign">Benign</option>
+      <option value="likely_benign">Likely Benign</option>
+      <option value="uncertain_significance">Uncertain Significance</option>
+      <option value="conflicting_classifications_of_pathogenicity">Conflicting Classifications of Pathogenicity</option>
+      <option value="not_provided">Not Provided</option>
+      <option value="not_found_in_clinvar">Not Found in Clinvar</option>
+    </select>
+  </div>
+  <button type="submit" class="mui-btn mui-btn--primary">Search</button>
 
 </form>
 
-<form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
-  <input type="file" name="file" id="upload-file-input" required>
-  <button type="submit" id="upload-btn">Upload</button>
+<form id="upload-form" class="mui-form" action="/upload" method="POST" enctype="multipart/form-data">
+  <input type="file" name="file" id="upload-file-input" class="mui-input" required>
+  <button type="submit" id="upload-btn" class="mui-btn mui-btn--secondary">Upload</button>
   <div id="loading">Loading...</div>
 </form>
 
 <div id="results"></div>
 <div id="patient-list"></div>
 <div id="variant-dict"></div>
+<div id="piechart" style="width: 900px; height: 500px;"></div>
 
 <p>Variant Search - Input: vcf or hgvf format. Ouput: all patients with that variant and ClinVar information</p>
 <p>Gene Symbol Search - Input: gene symbol Ouput: all patients and their variants found in that gene, plus classification</p>
 <p>Patient Search - Input: patient name Output: all variants for that patient, their classifications and corresponding gene symbol</p>
-<p>Classification Search - Input: Select classification from list Output: all variants in database with that classification</p>
+<p>Classification Search - Input: Select classification from list Output: all variants in database with that classification</p> -->
 
 <script src="{{ url_for('static', filename='search.js') }}"></script>
 {% endblock %}

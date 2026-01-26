@@ -1,35 +1,121 @@
-* {
+body {
     font-family: "Roboto", sans-serif;
+    background-color: #f5f5f5;
+    color: #263238;
 }
 
 h2 {
-    color: darkred;
+    color: #263238;
     text-align: center;
     font-size: 40px;
+    font-weight: 500;
 }
 
 h4 {
-    color: black;
+    color: #546e7a;
     text-align: center;
-    font-size: 30px;
+    font-size: 22px;
+    font-weight: 400;
 }
 
 p {
     font-size: 18px;
 }
 
+nav a {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+nav span {
+    font-size: 20px;
+    color: white;
+}
+
+#results-panel {
+    display: none;
+}
+
+/**
+ * Header 
+ */
+header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+}
+
+header ul.mui-list--inline {
+    margin-bottom: 0;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+
+/* AppBar */
+header.mui-appbar {
+    background-color: #c51c22;
+    color: #ffffff;
+    padding: 0 20px;
+
+}
+
+header table {
+    width: 100%;
+}
+
+#content {
+    padding-top: 64px; /* same height as mui--appbar-height*/
+}
+
+
+/* MATERIAL UI OVERRIDES */
+
+/* AppBar links */
+header a {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+
+/* Panels (cards) */
+.mui-panel {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Primary buttons (Upload / Search) */
+.mui-btn--primary {
+    background-color: #1cc5bf;
+    color: #ffffff;
+    transition: background-color 0.2s ease;
+}
+
+.mui-btn--primary:hover {
+    background-color: #17b0ab;
+}
+
 form {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 30px;
+    gap: 10px;
 }
 
 input[type="text"] {
     width: 300px;
     padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 25px 0 0 25px;
     outline: none;
 }
 
@@ -38,18 +124,51 @@ button {
     border: none;
     background-color: #007BFF;
     color: white;
-    border-radius: 0 25px 25px 0;
     cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
 }
 
 button:disabled {
     background-color: grey;
     cursor: not-allowed;
 }
+
+/* Container for the 4 category boxes */
+.categories-container {
+    display: flex;
+    flex-wrap: wrap;       /* stack on smaller screens */
+    gap: 15px;             /* space between boxes */
+    justify-content: center;
+}
+
+/* Individual boxes */
+.category-box {
+    background-color: #f5f5f5;  /* subtle contrast with panel */
+    border-radius: 8px;
+    padding: 15px;
+    width: 220px;               /* fixed width */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-box h4 {
+    color: #c51c22;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.category-box p {
+    font-size: 14px;
+    color: #546e7a;
+    margin: 5px 0;
+}
+
+.category-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
 
 ul#results {
     list-style-type: none;
@@ -62,14 +181,26 @@ ul#results {
     display: none;
 }
 
-#upload-form{
-    position: absolute;
-    top: 15px;
-    right: 20px;
+/* Loading Spinner */
+.spinner {
+    margin-top: 2px;
+    width: 24px;
+    height: 24px;
+    border: 4px solid #f3f3f3; /* light gray */
+    border-top: 4px solid #1cc5bf; /* teal color for rotation */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 
 .result-header {
     margin-top: 30px;
     font-size: 22px;
     text-align: center;
-    }
+}

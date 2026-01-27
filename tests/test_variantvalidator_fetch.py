@@ -29,7 +29,8 @@ def test_fetch_variant_validator_success():
 
 
 # Empty variant description provided
-def test_fetch_variant_validator_empty():
+@patch("requests.get")  # Replaces requests.get with a mock object during this test
+def test_fetch_variant_validator_empty(mock_get):
     """Test that empty variant strings raise VariantDescriptionError."""
     variant_description = ""
     with pytest.raises(VariantDescriptionError):
@@ -37,15 +38,17 @@ def test_fetch_variant_validator_empty():
 
 
 # Passing a non-string as the variant description
-def test_fetch_variant_validator_non_string_variant():
+@patch("requests.get")  # Replaces requests.get with a mock object during this test
+def test_fetch_variant_validator_non_string_variant(mock_get):
     """Test that non-strings raise VariantDescriptionError."""
     variant_description = 5
     with pytest.raises(VariantDescriptionError):
-        fetch_variant_validator(variant_description)  
+        fetch_variant_validator(variant_description)
 
 
 # Invalid variant description provided
-def test_fetch_variant_validator_invalid_description():
+@patch("requests.get")  # Replaces requests.get with a mock object during this test
+def test_fetch_variant_validator_invalid_description(mock_get):
     """Test that invalid variant styles raise VariantDescriptionError."""
     variant_description = "chr17(GRCh38):g.50198002C>A"
     with pytest.raises(VariantDescriptionError):
@@ -53,7 +56,8 @@ def test_fetch_variant_validator_invalid_description():
 
 
 # Invalid chromosome provided
-def test_fetch_variant_validator_invalid_chromosome():
+@patch("requests.get")  # Replaces requests.get with a mock object during this test
+def test_fetch_variant_validator_invalid_chromosome(mock_get):
     """Test that chromosome values that aren't 1-22, X, Y raise VariantDescriptionError."""
     variant_description = "23:12345:A:T"
     with pytest.raises(VariantDescriptionError):
@@ -61,7 +65,8 @@ def test_fetch_variant_validator_invalid_chromosome():
 
 
 # Invalid genomic position provided
-def test_fetch_variant_validator_invalid_position():
+@patch("requests.get")  # Replaces requests.get with a mock object during this test
+def test_fetch_variant_validator_invalid_position(mock_get):
     """Test that genomic positions that aren't numeric raise VariantDescriptionError."""
     variant_description = "17:S:G:T"
     with pytest.raises(VariantDescriptionError):
@@ -69,12 +74,13 @@ def test_fetch_variant_validator_invalid_position():
 
 
 # Invalid reference or alternate bases provided
-def test_fetch_variant_validator_invalid_bases():
+@patch("requests.get")  # Replaces requests.get with a mock object during this test
+def test_fetch_variant_validator_invalid_bases(mock_get):
     """Test that invalid reference or alternate bases raise VariantDescriptionError."""
     variant_description = "17:45983420:Q:T"
     with pytest.raises(VariantDescriptionError):
         fetch_variant_validator(variant_description)
-    
+
 
 # API failure
 @patch("requests.get")  # Replaces requests.get with a mock object during this test
@@ -88,7 +94,8 @@ def test_fetch_variant_validator_api_failure(mock_get):  # The mock_get is the m
 
 
 # No valid HGVS key in the JSON response from Variant Validator
-def test_fetch_variant_validator_no_hgvs_key():
+@patch("requests.get")  # Replaces requests.get with a mock object during this test
+def test_fetch_variant_validator_no_hgvs_key(mock_get):
     """Test that variants with no valid HGVS (:c.) key raise VariantValidatorResponseError."""
     variant_description = "1:9999999999:A:T"
     with pytest.raises(VariantValidatorResponseError):

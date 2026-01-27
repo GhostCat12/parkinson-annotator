@@ -115,7 +115,7 @@ def test_search_success_gene_symbol(client, monkeypatch):
 
     response = client.post(
         "/search",
-        json={"query": "GENE1", "category": "gene_symbol"}
+        json={"query": "GENE1", "searchCategory": "gene_symbol"}
     )
 
     assert response.status_code == 200

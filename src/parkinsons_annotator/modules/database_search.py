@@ -78,7 +78,7 @@ def database_list(search_category=None, search_value=None, search_classification
         )
 
         # Execute query and fetch results
-        query_results = db_session.execute(stmt).all()
+        query_results = db_session.execute(stmt).mappings().all()
         logger.info(f"Found {len(query_results)} patients with variant.")
 
         # Raise exception if no matching records found
@@ -148,7 +148,7 @@ def database_list(search_category=None, search_value=None, search_classification
         logger.info(f"Searching database for classification= '{search_classification}'")
         # Find list of variants with that classification
         stmt = (
-            select(Variant.hgvs)
+            select(Variant.hgvs, Variant.gene_symbol)
             .where(Variant.classification.ilike(search_classification))
         )
 

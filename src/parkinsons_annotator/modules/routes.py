@@ -57,7 +57,7 @@ def search():
     #Specify column orders to display in Flask for each search category
     column_orders = {
         "patient_name": ["hgvs", "gene_symbol", "classification"],
-        "classification": ["hgvs"],
+        "classification": ["hgvs", "gene_symbol"],
         "gene_symbol": ["hgvs", "classification", "name"],
         "variant": None,  # handled separately
     }
@@ -78,8 +78,8 @@ def search():
     # Special handling for variant searches which return 2 tables:
     if search_category == 'variant':
         # results = [(VariantORM, "patient1"), (VariantORM, "patient2"), ...]
-        variant_object = results[0][0]  # get first ORM object in list, contains variant info
-        patient_list = [row[1] for row in results]  # get list of patient names from all rows
+        variant_object = results[0].Variant  # get first ORM object in list, contains variant info
+        patient_list = [row.name for row in results]  # get list of patient names from all rows
 
         # Create a dictionary for the variant with variant info fields
         variant_dict = {
@@ -98,8 +98,7 @@ def search():
 
         return jsonify({
             "column_order": list(variant_dict.keys()), # Table column order set to the same as variant_dict order
-            "variant": variant_dict,
-            "patients": patient_list
+            "results": {"variant": variant_dict, "patients": patient_list}
         }), 200
 
     # Other search types:

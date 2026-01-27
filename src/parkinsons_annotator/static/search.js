@@ -1,21 +1,69 @@
+const form = document.getElementById("search-form");
+const searchBox = document.getElementById("search-box");
+const searchCategory = document.getElementById("search-category");
+const searchClassification = document.getElementById("search-classification-dropdown")
+const uploadForm = document.getElementById("upload-form");
+const loadingIndicator = document.getElementById("loading");
+const uploadButton = document.getElementById("upload-btn");
+const resultsPanel = document.getElementById("results-panel");
+
+// Load Google Charts
+google.charts.load('current', {'packages':['corechart']});
+
 // Graceful shutdown
 window.addEventListener("beforeunload", function () {
     navigator.sendBeacon("/shutdown");
 });
 
+const render_pie_chart = (data, chartField = 'classification') => {
+    const results = data.results;
+
+    // Count occurrences of each value in the specified field
+    const counts = {};
+    results.forEach(row => {
+        const value = row[chartField] || 'Unknown';
+        counts[value] = (counts[value] || 0) + 1;
+    });
+
+    // Determine chart title based on field
+    const chartTitle = chartField === 'gene_symbol'
+        ? 'Gene Distribution'
+        : 'ClinVar Classification Distribution';
+
+    var chartData = google.visualization.arrayToDataTable([
+        [chartField === 'gene_symbol' ? 'Gene' : 'Classification', 'Count'],
+        ...Object.entries(counts).map(([key, value]) => [key, value])
+    ]);
+
+    var options = {
+        title: chartTitle,
+        titleTextStyle: { fontSize: 18, color: '#546e7a' },
+        colors: ['#c51c22', '#1cc5bf', '#c51c76', '#c56b1c', '#e56e6f', '#008a7e', '#ef67ac', '#dc9f3a'],
+        fontSize: 14,
+        pieHole: 0.4,
+        legend: { position: 'labeled', textStyle: { fontSize: 13 } },
+        chartArea: { left: '15%', top: '15%', width: '70%', height: '70%' },
+        pieSliceText: 'none'
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(chartData, options);
+}
+
 // Handle upload
-document.getElementById('upload-form').addEventListener('submit', async (e) => {
+uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('file', document.getElementById('upload-file-input').files[0]);
 
-    document.getElementById('loading').style.display = 'block';
-    document.getElementById('upload-btn').disabled = true;
+    loadingIndicator.style.display = 'block';
+    uploadButton.disabled = true;
 
     const res = await fetch('/upload', { method: 'POST', body: formData });
 
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('upload-btn').disabled = false;
+    loadingIndicator.style.display = 'none';
+    uploadButton.disabled = false;
 
     // alert(res.ok ? 'File uploaded successfully!' : 'Upload failed.');
 
@@ -24,11 +72,6 @@ document.getElementById('upload-form').addEventListener('submit', async (e) => {
 });
 
 // Handle search
-
-const form = document.getElementById("search-form");
-const searchBox = document.getElementById("search-box");
-const searchCategory = document.getElementById("search-category");
-const searchClassification = document.getElementById("search-classification-dropdown")
 
 // Toggle search input depending on category
 searchCategory.addEventListener("change", function () {
@@ -54,15 +97,14 @@ form.addEventListener("submit", async (e) => {
     const query = searchBox.value.trim();
     const selectedSearchClassification = searchClassification.value;
 
+    resultsPanel.style.display = 'block';
+
     // Always get the containers fresh
     const resultsList = document.getElementById("results");
-    const variantDict = document.getElementById("variant-dict");
-    const patientList = document.getElementById("patient-list");
 
     // Clear old outputs
     resultsList.innerHTML = "";
-    variantDict.innerHTML = "";
-    patientList.innerHTML = "";
+    document.getElementById("piechart").innerHTML = "";
 
     const response = await fetch("/search", {
         method: "POST",
@@ -81,7 +123,7 @@ form.addEventListener("submit", async (e) => {
     let resultSentence = "";
 
     if (selectedCategory === "variant") {
-        resultSentence = `Patients with variant <strong>${query}</strong>:`;
+        resultSentence = `Variant: <strong>${query}</strong>`;
 
     } else if (selectedCategory === "gene_symbol") {
         resultSentence = `Patient variants found in gene <strong>${query}</strong>:`;
@@ -111,70 +153,61 @@ form.addEventListener("submit", async (e) => {
 
     // SPECIAL CASE: VARIANT SEARCH
     if (selectedCategory === "variant") {
-        const variantData = data.variant;
-        const patients = data.patients;
+        const variantData = data.results.variant;
+        const patients = data.results.patients;
+        const piechart = document.getElementById("piechart");
 
-        // Patient list
-        const ul = document.createElement("ul");
-        ul.style.listStyleType = "none";
-        ul.style.padding = "0";
-        ul.style.margin = "0 auto";
+        // Left column: Patients header + chips
+        const patientsHeader = document.createElement("h3");
+        patientsHeader.classList.add("variant-section-header");
+        patientsHeader.textContent = "Patients";
+        resultsList.appendChild(patientsHeader);
 
         const container = document.createElement("div");
-        container.style.textAlign = "center";
-        container.style.marginTop = "20px";
-        container.style.fontFamily = "Georgia, serif";
-        container.style.fontSize = "22px";     // bigger text
-        container.style.fontWeight = "bold";
+        container.classList.add("patient-chips-container");
 
         patients.forEach(p => {
-            const li = document.createElement("li");
-            li.textContent = p;
-            li.style.margin = "5px 0";
-            ul.appendChild(li);
+            const chip = document.createElement("span");
+            chip.classList.add("patient-chip");
+            chip.textContent = p;
+            container.appendChild(chip);
         });
 
-        container.appendChild(ul);
-        patientList.appendChild(container);
+        resultsList.appendChild(container);
 
-        // ADD HEADER BETWEEN PATIENT LIST AND TABLE
-        const header = document.createElement("h3");
-        header.textContent = "Variant Information";
-        header.style.textAlign = "center";
-        header.style.fontFamily = "Georgia, serif";
-        header.style.fontSize = "26px";
-        header.style.marginTop = "25px";
-        header.style.marginBottom = "10px";
+        // Right column: Variant info table (use piechart area)
+        const variantHeader = document.createElement("h3");
+        variantHeader.classList.add("variant-section-header");
+        variantHeader.textContent = "Variant Information";
+        piechart.appendChild(variantHeader);
 
-        variantDict.appendChild(header);
-
-        // Build variant info table
         const table = document.createElement("table");
-        table.style.margin = "20px auto";
-        table.style.borderCollapse = "collapse";
+        table.classList.add("variant-info-table");
 
         for (const [key, value] of Object.entries(variantData)) {
             const row = document.createElement("tr");
 
             const th = document.createElement("th");
+            th.classList.add("variant-info-header-cell");
             th.textContent = key;
-            th.style.border = "1px solid black";
-            th.style.padding = "6px 10px";
 
             const td = document.createElement("td");
+            td.classList.add("variant-info-data-cell");
             td.innerHTML = value;    // allows clickable links
-            td.style.border = "1px solid black";
-            td.style.padding = "6px 10px";
 
             row.appendChild(th);
             row.appendChild(td);
             table.appendChild(row);
         }
 
-        variantDict.appendChild(table);
+        piechart.appendChild(table);
 
         return;  // stop - don't trigger normal results handler
     }
+
+    // Chart by gene for classification searches, otherwise by classification
+    const chartField = selectedCategory === 'classification' ? 'gene_symbol' : 'classification';
+    render_pie_chart(data, chartField);
 
     const results = data.results;
 
@@ -189,34 +222,32 @@ form.addEventListener("submit", async (e) => {
     // Build a table dynamically
 
     const table = document.createElement("table");
-    table.style.margin = "20px auto";
-    table.style.borderCollapse = "collapse";
-    table.style.fontFamily = "Georgia, serif";
-    table.style.fontSize = "18px";
+    table.classList.add("results-table");
 
-    const header = document.createElement("tr");
+    const headerRow = document.createElement("tr");
+    headerRow.classList.add("table-row");
 
     columns.forEach(col => {
         const th = document.createElement("th");
+        th.classList.add("table-header");
         th.textContent = col.replace("_", " ").toUpperCase();
-        th.style.padding = "10px 15px";
-        th.style.backgroundColor = "#e0e0e0";
-        th.style.border = "1px solid black";
-        header.appendChild(th);
+        headerRow.appendChild(th);
     });
 
-    table.appendChild(header);
+    table.appendChild(headerRow);
 
     // Fill table rows
     results.forEach(row => {
         const tr = document.createElement("tr");
+        tr.classList.add("table-row");
 
         columns.forEach(col => {
             const td = document.createElement("td");
+            td.classList.add("table-cell");
             const value = row[col];
 
             if (typeof value === "string") {
-                let cleaned = value.replace(/[\[\]']/g, "").trim();
+                const cleaned = value.replace(/[\[\]']/g, "").trim();
 
                 if (cleaned.includes("http")) {
                     td.innerHTML = `<a href="${cleaned}" target="_blank">${cleaned}</a>`;
@@ -227,8 +258,6 @@ form.addEventListener("submit", async (e) => {
                 td.textContent = value;
             }
 
-            td.style.padding = "8px 12px";
-            td.style.border = "1px solid black";
             tr.appendChild(td);
         });
 

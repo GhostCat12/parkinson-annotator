@@ -105,30 +105,83 @@ header a:hover {
     background-color: #17b0ab;
 }
 
-form {
+/* Panel headers */
+.panel-header {
+    font-size: 18px;
+    font-weight: 500;
+    color: #546e7a;
+    margin: 0 0 20px 0;
+    text-align: left;
+}
+
+/* Form styling */
+.form-inline {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 30px;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
-input[type="text"] {
-    width: 300px;
-    padding: 10px;
+.form-input {
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
     outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    min-width: 200px;
+}
+
+.form-input:focus {
+    border-color: #1cc5bf;
+    box-shadow: 0 0 0 2px rgba(28, 197, 191, 0.2);
+}
+
+.form-select {
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23546e7a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    min-width: 180px;
+}
+
+.form-select:focus {
+    border-color: #1cc5bf;
+    box-shadow: 0 0 0 2px rgba(28, 197, 191, 0.2);
+}
+
+.file-input {
+    padding: 8px;
+    font-size: 14px;
 }
 
 button {
     padding: 10px 20px;
     border: none;
-    background-color: #007BFF;
-    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 button:disabled {
-    background-color: grey;
+    background-color: #bdbdbd;
     cursor: not-allowed;
 }
 
@@ -197,10 +250,129 @@ ul#results {
     100% { transform: rotate(360deg); }
 }
 
-
-
 .result-header {
-    margin-top: 30px;
-    font-size: 22px;
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #546e7a;
+    text-align: left;
+}
+
+/* Patient chips for variant search */
+.patient-chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+    margin: 0 0 20px 0;
+}
+
+.patient-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    background-color: #1cc5bf;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.variant-info-header {
     text-align: center;
+    font-size: 26px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.variant-section-header {
+    font-size: 18px;
+    font-weight: 500;
+    color: #263238;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #1cc5bf;
+}
+
+/* Variant info table (single variant lookup) */
+.variant-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.variant-info-header-cell {
+    background-color: #c51c22;
+    color: #ffffff;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.variant-info-data-cell {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #263238;
+}
+
+.variant-info-table tr:last-child .variant-info-header-cell,
+.variant-info-table tr:last-child .variant-info-data-cell {
+    border-bottom: none;
+}
+
+.variant-info-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Results table (search results) */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table-header {
+    padding: 14px 16px;
+    background-color: #c51c22;
+    color: #ffffff;
+    font-weight: 500;
+    text-align: left;
+    border-bottom: 2px solid #a01820;
+}
+
+.table-cell {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #263238;
+}
+
+.table-row:hover {
+    background-color: #f5f5f5;
+}
+
+.table-row:last-child .table-cell {
+    border-bottom: none;
+}
+
+/* Links in tables */
+.table-cell a,
+.variant-info-data-cell a {
+    color: #1cc5bf;
+    text-decoration: none;
+}
+
+.table-cell a:hover,
+.variant-info-data-cell a:hover {
+    text-decoration: underline;
+    color: #17b0ab;
 }

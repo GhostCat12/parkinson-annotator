@@ -166,6 +166,27 @@ def test_search_no_matches(client, monkeypatch):
     assert response.status_code == 404
     assert response.get_json()["message"] == "No matching records found"
 
+def test_search_server_error(client, monkeypatch):
+    """
+    Unexpected server errors during search return HTTP 500.
+    """
+
+    def raise_unexpected(*args, **kwargs):
+        raise Exception("Database is down")
+
+    monkeypatch.setattr(
+        "parkinsons_annotator.modules.routes.database_list",
+        raise_unexpected
+    )
+
+    response = client.post(
+        "/search",
+        json={"query": "GENE1", "category": "gene_symbol"}
+    )
+
+    assert response.status_code == 500
+    assert response.get_json()["message"] == "Internal server error"
+
 # Upload Route
 
 def test_upload_no_file(client):

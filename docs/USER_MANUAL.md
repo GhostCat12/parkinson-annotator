@@ -22,12 +22,12 @@ The upload function has built in checks, to ensure that if the same patient
 data is uploaded twice, then the data won't be duplicated. If this happens a
 pop-up will appear explaining this:
 
-![failed upload](manual_images/PatientAlreadyExists.png)
+<img src="manual_images/PatientAlreadyExists.png" alt="Failed upload" width="371" height="150">
 
 If the patient data being uploaded is not in the database, then once it has
 been uploaded, a pop-up will appear explaining this:
 
-![successful upload](manual_images/UploadSuccessful.png)
+<img src="manual_images/UploadSuccessful.png" alt="successful upload" width="371" height="150">
 
 ## Searching the Dataset
 To use the **Search** function, a category must be selected from the

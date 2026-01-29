@@ -9,7 +9,7 @@ pipeline {
     agent any
 
     environment {
-        CONDA_PREFIX = '/Users/naimaabdi/opt/miniconda3'  // Path to Conda installation
+        CONDA_PREFIX = sh(script: 'conda info --base 2>/dev/null || echo /opt/miniconda3', returnStdout: true).trim() // Path to Conda installation
         CONDA_ENV_NAME = 'parkinsons-env'  // Name of the Conda environment to create
         PIP_DISABLE_PIP_VERSION_CHECK = '1'  // Disable pip version check warnings
         PYTHONUNBUFFERED = '1'  // Ensure real-time, unbuffered output from Python 

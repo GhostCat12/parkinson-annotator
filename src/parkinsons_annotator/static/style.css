@@ -71,9 +71,6 @@ header table {
     padding-top: 64px; /* same height as mui--appbar-height*/
 }
 
-
-/* MATERIAL UI OVERRIDES */
-
 /* AppBar links */
 header a {
     color: #ffffff;
@@ -373,6 +370,17 @@ ul#results {
 
 .table-cell a:hover,
 .variant-info-data-cell a:hover {
+    text-decoration: underline;
+    color: #17b0ab;
+}
+
+.docs-links a {
+    color: #1cc5bf;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.docs-links a:hover {
     text-decoration: underline;
     color: #17b0ab;
 }

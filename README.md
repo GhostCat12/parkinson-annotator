@@ -1,13 +1,10 @@
-# ![](manual_images/PA_logo.png) Parkinson's Annotator
+# <img src="docs/manual_images/PA_logo.png" alt="Alt Text" width="50" height="50"> Parkinson's Annotator
 
 ### Description:  
-The Parkinson's Annotator project is a web-based application designed to help researchers and clinicians **upload, 
-explore, and query** patient genomic data.  
-This tool allows users to upload VCF and CSV files containing patient variant
-data and provides an **interactive interface** for searching by patient name, variant notation, gene symbol or ClinVar 
-pathogenicity classification.  
+The Parkinson's Annotator project is a web-based application designed to help researchers and clinicians **upload, explore, and query** patient genomic data.  
+This tool allows users to upload VCF and CSV files containing patient variant data and provides an **interactive interface** for searching by patient name, variant notation, gene symbol or ClinVar pathogenicity classification.  
 The results include relevant annotations, ClinVar information, and graphical views to assist analysis of large scale patient genomic data.
-![PA Browser App](manual_images/ParkinsonAnnotator.png)
+![PA Browser App](docs/manual_images/ParkinsonAnnotator.png)
 
 ### ✨ Features
 - Upload patient data in VCF and CSV formats.

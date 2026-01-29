@@ -133,6 +133,16 @@ def test_load_single_file_creates_dataframe(tmp_path):
     assert "chromosome" in df.columns # Confirm df has chromosome column
     assert df.shape[0] == 1 # Confirm Alice's df has 1 row as in mock data
 
+def test_load_single_file_handles_wrong_format(tmp_path):
+    """load_single_file raises ValueError on unsupported file format"""
+    # Mock filesystem with unsupported file type
+    file_path = tmp_path / "Bob.txt"
+    file_path.write_text("This is not a CSV or VCF file.")
+    # Clear all existing df information
+    dataframes.clear()
+    # Attempt to load unsupported file format
+    with pytest.raises(ValueError):
+        load_single_file(file_path)
 
 def test_fill_variant_notation(sample_df):
     """fill_variant_notation correctly populates vcf_form column of sample df"""
@@ -405,3 +415,47 @@ def test_load_and_insert_data(real_session, tmp_path, flask_app, monkeypatch):
     # Validate that variants were inserted with correct vcf_form
     assert real_session.get(Variant, "1:12345:A:T") is not None
     assert real_session.get(Variant, "2:22222:G:C") is not None
+
+def test_load_and_insert_data_raises_on_bad_data(real_session, tmp_path, flask_app, monkeypatch):
+    """load_and_insert_data raises ValueError on malformed CSV data."""
+    # Configure Flask app upload folder/DB name to mock filepath
+    flask_app.config["UPLOAD_FOLDER"] = str(tmp_path)
+    flask_app.config["DB_NAME"] = "test.db"
+    flask_app.config["TESTING"] = True
+
+    # Patch get_db_session so loader uses the test (real) session
+    monkeypatch.setattr(
+        "parkinsons_annotator.modules.data_extraction.get_db_session",
+        lambda: real_session
+    )
+
+    # Patch insert_dataframe_to_db to raise an exception
+    def raise_exception(*args, **kwargs):
+        raise Exception("Invalid data in CSV")
+    
+    monkeypatch.setattr(
+        "parkinsons_annotator.modules.data_extraction.insert_dataframe_to_db",
+        raise_exception
+    )
+
+    # Create temporary malformed CSV for a patient
+    bad_csv = tmp_path / "Charlie.csv"
+    # Malformed data (missing required columns)
+    # bad_csv.write_text("bad_column1,bad_column2\nvalue1,value2\n")
+    # Create temporary CSV with bad data types (e.g., non-numeric position)
+    bad_csv = tmp_path / "Charlie.csv"
+    pd.DataFrame([
+        {
+            "chromosome": "1",
+            "position": "not_a_number",  # Invalid: should be numeric
+            "id": "PID3",
+            "ref": "A",
+            "alt": "T"
+        }
+    ]).to_csv(bad_csv, index=False)
+
+    
+    # Run inside app context and expect Exception
+    with flask_app.app_context():
+        with pytest.raises(Exception):
+            load_and_insert_data()

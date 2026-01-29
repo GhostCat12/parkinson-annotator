@@ -1,17 +1,15 @@
-# Parkinson's Annotator
+# <img src="docs/manual_images/PA_logo.png" alt="Alt Text" width="50" height="50"> Parkinson's Annotator
 
 ### Description:  
-The Parkinson's Annotator project is a web-based application designed to help researchers and clinicians **upload, 
-explore, and query** patient genomic data.  
-This tool allows users to upload VCF and CSV files containing patient variant
-data and provides an **interactive interface** for searching by patient name, variant notation, gene symbol or ClinVar 
-pathogenicity classification.  
-The results include relevant annotations and ClinVar information, to assist analysis of large scale patient genomic data.
-
+The Parkinson's Annotator project is a web-based application designed to help researchers and clinicians **upload, explore, and query** patient genomic data.  
+This tool allows users to upload VCF and CSV files containing patient variant data and provides an **interactive interface** for searching by patient name, variant notation, gene symbol or ClinVar pathogenicity classification.  
+The results include relevant annotations, ClinVar information, and graphical views to assist analysis of large scale patient genomic data.
+![PA Browser App](docs/manual_images/ParkinsonAnnotator.png)
 
 ### ✨ Features
 - Upload patient data in VCF and CSV formats.
 - Store and manage variant data in a local SQLite database
+- Data Simplified through tables and pie charts 
 - Provides a lightweight Flask-based web application
 - Dockerised deployment for reproducible, platform-independent execution
 - Search variants by:
@@ -66,8 +64,7 @@ Docker is used to containerise the application, ensuring consistent deployment a
 
 ## 📚 Installation and usage instructions
 
-This project is designed to run in a **Conda environment** on **Linux Ubuntu 22.04 LTS (Jammy Jellyfish)** 
-and is also **containerised using Docker** for easier deployment.
+This project is designed to run in a **Conda environment** on **Linux Ubuntu 22.04 LTS (Jammy Jellyfish)** and is also **containerised using Docker** for easier deployment.
 
 ### 1. Installing the application:  
 

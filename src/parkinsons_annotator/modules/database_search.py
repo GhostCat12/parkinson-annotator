@@ -25,19 +25,19 @@ class NoMatchingRecordsError(Exception):
 
 
 # Search function
-def database_list(search_type=None, search_value=None, search_cat=None):
+def database_list(search_category=None, search_value=None, search_classification=None):
     """
-    Search the database based on user-specified type and value.
+    Search the database based on user-specified category and value.
 
     Args:
-        search_type (str): Type of search specified by the user.
+        search_category (str): Category of search specified by the user.
             Determines what is returned:
                 - 'variant': List of patients with matching variant and dictionary of variant info.
                 - 'gene_symbol': List of variants for that gene.
                 - 'classification': List of variants with that classification.
                 - 'patient': List of variants for that patient.
         search_value (str): Input value for the search, e.g. "NM_001377265.1:c.841G>T".
-        search_cat (str): Classification to search for, e.g. "Pathogenic". Only used in classification search.
+        search_classification (str): Classification to search for, e.g. "Pathogenic". Only used in classification search.
 
     Returns:
         list: List of query results (e.g., patient names).
@@ -46,14 +46,14 @@ def database_list(search_type=None, search_value=None, search_cat=None):
     # Get database session for query
     db_session = get_db_session()
 
-    # Raise error if no search type or value provided
-    if not search_type:
-        logger.warning("Search called without search_type")
+    # Raise error if no search category or value provided
+    if not search_category:
+        logger.warning("Search called without search_category")
         raise SearchFieldEmptyError("Missing search field input.")
 
-    # Based on search type, perform SQL query to return list from database
+    # Based on search category, perform SQL query to return list from database
     # --- Search by variant ---
-    if search_type == 'variant':
+    if search_category == 'variant':
         logger.info("Searching database for variant")
 
         # Normalise search value: strip whitespace and convert to uppercase
@@ -78,7 +78,7 @@ def database_list(search_type=None, search_value=None, search_cat=None):
         )
 
         # Execute query and fetch results
-        query_results = db_session.execute(stmt).all()
+        query_results = db_session.execute(stmt).mappings().all()
         logger.info(f"Found {len(query_results)} patients with variant.")
 
         # Raise exception if no matching records found
@@ -92,7 +92,7 @@ def database_list(search_type=None, search_value=None, search_cat=None):
         return query_results
 
     # --- Search by gene symbol ---
-    elif search_type == 'gene_symbol':
+    elif search_category == 'gene_symbol':
         logger.info(f"Searching database for gene symbol= '{search_value}'")
 
         # Find list of variants for that gene with patient name and variant classification
@@ -119,7 +119,7 @@ def database_list(search_type=None, search_value=None, search_cat=None):
         return [dict(row) for row in query_results]
 
     # --- Search by patient ---
-    elif search_type in ('patient', 'patient_name'):
+    elif search_category in ('patient', 'patient_name'):
         logger.info(f"Searching database for patient= '{search_value}'")
 
         # Find list of variants for that patient with the pathogenicity
@@ -144,21 +144,19 @@ def database_list(search_type=None, search_value=None, search_cat=None):
         # Convert SQLAlchemy rowmapping objects into real dictionaries for JSON
         return [dict(row) for row in query_results]
 
-    elif search_type == 'classification':
-        logger.info(f"Searching database for classification= '{search_cat}'")
+    elif search_category == 'classification':
+        logger.info(f"Searching database for classification= '{search_classification}'")
         # Find list of variants with that classification
         stmt = (
-            select(Variant.hgvs)
-            .where(Variant.classification.ilike(search_cat))
+            select(Variant.hgvs, Variant.gene_symbol)
+            .where(Variant.classification.ilike(search_classification))
         )
 
         query_results = db_session.execute(stmt).mappings().all()
-        logger.info(f"Found {len(query_results)} variants for classification '{search_cat}'")
-
+        logger.info(f"Found {len(query_results)} variants for classification '{search_classification}'")
         # Raise exception if no matching records found
         if not query_results:
-            logger.info(f"No variants found for classification '{search_value}'.")
-            raise NoMatchingRecordsError(f"No variants found for classification '{search_value}'.")
-
+            logger.info(f"No variants found for classification '{search_classification}'.")
+            raise NoMatchingRecordsError(f"No variants found for classification '{search_classification}'.")
         # Convert SQLAlchemy rowmapping objects into real dictionaries for JSON
         return [dict(row) for row in query_results]

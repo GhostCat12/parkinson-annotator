@@ -78,7 +78,7 @@ def test_index_route(client, monkeypatch):
     response = client.get("/")
 
     assert response.status_code == 200
-    assert b"interface_package.html" in response.data
+    assert b"index.html" in response.data
 
 
 def test_about_route(client, monkeypatch):
@@ -93,7 +93,7 @@ def test_about_route(client, monkeypatch):
     response = client.get("/about")
 
     assert response.status_code == 200
-    assert b"info.html" in response.data
+    assert b"about.html" in response.data
 
 # Search Route
 
@@ -115,7 +115,7 @@ def test_search_success_gene_symbol(client, monkeypatch):
 
     response = client.post(
         "/search",
-        json={"query": "GENE1", "category": "gene_symbol"}
+        json={"query": "GENE1", "searchCategory": "gene_symbol"}
     )
 
     assert response.status_code == 200
@@ -165,6 +165,27 @@ def test_search_no_matches(client, monkeypatch):
 
     assert response.status_code == 404
     assert response.get_json()["message"] == "No matching records found"
+
+def test_search_server_error(client, monkeypatch):
+    """
+    Unexpected server errors during search return HTTP 500.
+    """
+
+    def raise_unexpected(*args, **kwargs):
+        raise Exception("Database is down")
+
+    monkeypatch.setattr(
+        "parkinsons_annotator.modules.routes.database_list",
+        raise_unexpected
+    )
+
+    response = client.post(
+        "/search",
+        json={"query": "GENE1", "category": "gene_symbol"}
+    )
+
+    assert response.status_code == 500
+    assert response.get_json()["message"] == "Internal server error"
 
 # Upload Route
 

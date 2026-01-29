@@ -1,0 +1,464 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/GhostCat12/parkinson-annotator
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/GhostCat12/parkinson-annotator # timeout=10
+Fetching upstream changes from https://github.com/GhostCat12/parkinson-annotator
+ > git --version # timeout=10
+ > git --version # 'git version 2.50.1 (Apple Git-155)'
+ > git fetch --tags --force --progress -- https://github.com/GhostCat12/parkinson-annotator +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/dev^{commit} # timeout=10
+Checking out Revision 12109c33445d886baf668a545c5c0baf1633e257 (refs/remotes/origin/dev)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 12109c33445d886baf668a545c5c0baf1633e257 # timeout=10
+Commit message: "updates About page to include links to github repo docs"
+ > git rev-list --no-walk ac9dfb55eb9c828db4ffd33b4b6b89280b8cda85 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ find /Users/maryamhashmi /opt -maxdepth 2 -type d '(' -name miniconda3 -o -name anaconda3 ')'
++ head -1
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/GhostCat12/parkinson-annotator # timeout=10
+Fetching upstream changes from https://github.com/GhostCat12/parkinson-annotator
+ > git --version # timeout=10
+ > git --version # 'git version 2.50.1 (Apple Git-155)'
+ > git fetch --tags --force --progress -- https://github.com/GhostCat12/parkinson-annotator +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/dev^{commit} # timeout=10
+Checking out Revision 12109c33445d886baf668a545c5c0baf1633e257 (refs/remotes/origin/dev)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 12109c33445d886baf668a545c5c0baf1633e257 # timeout=10
+Commit message: "updates About page to include links to github repo docs"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Setup Conda Environment)
+[Pipeline] sh
++ . /Users/maryamhashmi/miniconda3/etc/profile.d/conda.sh
+++ export CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ export CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ export _CONDA_ROOT=/Users/maryamhashmi/miniconda3
+++ _CONDA_ROOT=/Users/maryamhashmi/miniconda3
+++ '[' -z '' ']'
+++ export CONDA_SHLVL=0
+++ CONDA_SHLVL=0
+++ '[' -n '' ']'
+++++ dirname /Users/maryamhashmi/miniconda3/bin/conda
++++ dirname /Users/maryamhashmi/miniconda3/bin
+++ PATH=/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin
+++ export PATH
+++ '[' -z '' ']'
+++ PS1=
++ conda env remove -n parkinsons-env
++ local cmd=env
++ case "$cmd" in
++ __conda_exe env remove -n parkinsons-env
++ '[' -n '' ']'
++ /Users/maryamhashmi/miniconda3/bin/conda env remove -n parkinsons-env
+CI detected...
+2 channel Terms of Service accepted
+
+Remove all packages in environment /Users/maryamhashmi/miniconda3/envs/parkinsons-env:
+
+
+## Package Plan ##
+
+  environment location: /Users/maryamhashmi/miniconda3/envs/parkinsons-env
+
+
+The following packages will be REMOVED:
+
+  bzip2-1.0.8-hd037594_8
+  ca-certificates-2026.1.4-hbd8a1cb_0
+  icu-78.2-h38cb7af_0
+  libexpat-2.7.3-haf25636_0
+  libffi-3.5.2-hcf2aa1b_0
+  liblzma-5.8.2-h8088a28_0
+  libmpdec-4.0.0-h84a0fba_1
+  libsqlite-3.51.2-h1ae2325_0
+  libzlib-1.3.1-h8359307_2
+  ncurses-6.5-h5e97a16_3
+  openssl-3.6.1-hd24854e_1
+  pip-25.3-pyh145f28c_0
+  python-3.13.2-h81fe080_101_cp313
+  python_abi-3.13-8_cp313
+  readline-8.3-h46df422_0
+  tk-8.6.13-h010d191_3
+  tzdata-2025c-hc9c84f9_1
+
+
+Proceed ([y]/n)? 
+
+Downloading and Extracting Packages: ...working... done
+Preparing transaction: - done
+Verifying transaction: | done
+Executing transaction: - \ | / - \ | / - \ done
+Everything found within the environment (/Users/maryamhashmi/miniconda3/envs/parkinsons-env), including any conda environment configurations and any non-conda files, will be deleted. Do you wish to continue?
+ (y/[n])? 
+
+CondaSystemExit: Exiting.
+
++ conda env create -f environment.yml
++ local cmd=env
++ case "$cmd" in
++ __conda_exe env create -f environment.yml
++ '[' -n '' ']'
++ /Users/maryamhashmi/miniconda3/bin/conda env create -f environment.yml
+CI detected...
+2 channel Terms of Service accepted
+Channels:
+ - conda-forge
+ - defaults
+Platform: osx-arm64
+Collecting package metadata (repodata.json): - \ | / - \ | done
+Solving environment: - done
+
+
+==> WARNING: A newer version of conda exists. <==
+    current version: 25.7.0
+    latest version: 25.11.1
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+Downloading and Extracting Packages: ...working... done
+Preparing transaction: | done
+Verifying transaction: - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - done
+Executing transaction: | / - \ | / - \ | / - \ | / - \ done
+Installing pip dependencies: / - \ | / - \ | / - \ | / - \ | Ran pip subprocess with arguments:
+['/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin/python', '-m', 'pip', 'install', '-U', '-r', '/Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt', '--exists-action=b']
+Pip subprocess output:
+Processing /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: flask==3.1.2 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (3.1.2)
+Requirement already satisfied: sqlalchemy==2.0.44 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2.0.44)
+Requirement already satisfied: biopython==1.86 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (1.86)
+Requirement already satisfied: pandas==2.3.3 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2.3.3)
+Requirement already satisfied: requests==2.32.5 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2.32.5)
+Requirement already satisfied: python-dotenv==1.2.1 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (1.2.1)
+Requirement already satisfied: markdown==3.10 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (3.10)
+Requirement already satisfied: numpy in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from biopython==1.86->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2.4.1)
+Requirement already satisfied: blinker>=1.9.0 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from flask==3.1.2->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (1.9.0)
+Requirement already satisfied: click>=8.1.3 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from flask==3.1.2->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (8.3.0)
+Requirement already satisfied: itsdangerous>=2.2.0 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from flask==3.1.2->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2.2.0)
+Requirement already satisfied: jinja2>=3.1.2 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from flask==3.1.2->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (3.1.6)
+Requirement already satisfied: markupsafe>=2.1.1 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from flask==3.1.2->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (3.0.3)
+Requirement already satisfied: werkzeug>=3.1.0 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from flask==3.1.2->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (3.1.3)
+Requirement already satisfied: python-dateutil>=2.8.2 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from pandas==2.3.3->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2.9.0.post0)
+Requirement already satisfied: pytz>=2020.1 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from pandas==2.3.3->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2025.2)
+Requirement already satisfied: tzdata>=2022.7 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from pandas==2.3.3->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2025.3)
+Requirement already satisfied: charset_normalizer<4,>=2 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from requests==2.32.5->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (3.4.4)
+Requirement already satisfied: idna<4,>=2.5 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from requests==2.32.5->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from requests==2.32.5->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2.5.0)
+Requirement already satisfied: certifi>=2017.4.17 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from requests==2.32.5->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (2025.10.5)
+Requirement already satisfied: typing-extensions>=4.6.0 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from sqlalchemy==2.0.44->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (4.15.0)
+Requirement already satisfied: six>=1.5 in /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages (from python-dateutil>=2.8.2->pandas==2.3.3->parkinsons-annotator==0.1.0->-r /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline/condaenv.ulo5lt6i.requirements.txt (line 1)) (1.17.0)
+Building wheels for collected packages: parkinsons-annotator
+  Building wheel for parkinsons-annotator (pyproject.toml): started
+  Building wheel for parkinsons-annotator (pyproject.toml): finished with status 'done'
+  Created wheel for parkinsons-annotator: filename=parkinsons_annotator-0.1.0-py3-none-any.whl size=37579 sha256=b23e6d62e462d07444f76a20bb474fa8aba2d9e9534d71fc0f9a90633d4b0319
+  Stored in directory: /Users/maryamhashmi/Library/Caches/pip/wheels/c6/e7/7c/976f177ffc35eb1c62cdcd041c31f60d6ed6c67c08db85a1aa
+Successfully built parkinsons-annotator
+Installing collected packages: parkinsons-annotator
+  Attempting uninstall: parkinsons-annotator
+    Found existing installation: parkinsons-annotator 0.1.0
+    Uninstalling parkinsons-annotator-0.1.0:
+      Successfully uninstalled parkinsons-annotator-0.1.0
+Successfully installed parkinsons-annotator-0.1.0
+
+done
+#
+# To activate this environment, use
+#
+#     $ conda activate parkinsons-env
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Install Package)
+[Pipeline] sh
++ . /Users/maryamhashmi/miniconda3/etc/profile.d/conda.sh
+++ export CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ export CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ export _CONDA_ROOT=/Users/maryamhashmi/miniconda3
+++ _CONDA_ROOT=/Users/maryamhashmi/miniconda3
+++ '[' -z '' ']'
+++ export CONDA_SHLVL=0
+++ CONDA_SHLVL=0
+++ '[' -n '' ']'
+++++ dirname /Users/maryamhashmi/miniconda3/bin/conda
++++ dirname /Users/maryamhashmi/miniconda3/bin
+++ PATH=/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin
+++ export PATH
+++ '[' -z '' ']'
+++ PS1=
++ conda activate parkinsons-env
++ local cmd=activate
++ case "$cmd" in
++ __conda_activate activate parkinsons-env
++ '[' -n '' ']'
++ local ask_conda
+++ PS1=
+++ __conda_exe shell.posix activate parkinsons-env
+++ '[' -n '' ']'
+++ /Users/maryamhashmi/miniconda3/bin/conda shell.posix activate parkinsons-env
++ ask_conda='export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+PS1='\''(parkinsons-env) '\''
+export PATH='\''/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin:/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin'\''
+export CONDA_PREFIX='\''/Users/maryamhashmi/miniconda3/envs/parkinsons-env'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''parkinsons-env'\''
+export CONDA_PROMPT_MODIFIER='\''(parkinsons-env) '\''
+export CONDA_EXE='\''/Users/maryamhashmi/miniconda3/bin/conda'\''
+export _CONDA_EXE='\''/Users/maryamhashmi/miniconda3/bin/conda'\''
+export CONDA_PYTHON_EXE='\''/Users/maryamhashmi/miniconda3/bin/python'\''
+export _CONDA_ROOT='\''/Users/maryamhashmi/miniconda3'\'''
++ eval 'export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+PS1='\''(parkinsons-env) '\''
+export PATH='\''/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin:/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin'\''
+export CONDA_PREFIX='\''/Users/maryamhashmi/miniconda3/envs/parkinsons-env'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''parkinsons-env'\''
+export CONDA_PROMPT_MODIFIER='\''(parkinsons-env) '\''
+export CONDA_EXE='\''/Users/maryamhashmi/miniconda3/bin/conda'\''
+export _CONDA_EXE='\''/Users/maryamhashmi/miniconda3/bin/conda'\''
+export CONDA_PYTHON_EXE='\''/Users/maryamhashmi/miniconda3/bin/python'\''
+export _CONDA_ROOT='\''/Users/maryamhashmi/miniconda3'\'''
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ PS1='(parkinsons-env) '
+++ export PATH=/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin:/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin
+++ PATH=/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin:/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin
+++ export CONDA_PREFIX=/Users/maryamhashmi/miniconda3/envs/parkinsons-env
+++ CONDA_PREFIX=/Users/maryamhashmi/miniconda3/envs/parkinsons-env
+++ export CONDA_SHLVL=1
+++ CONDA_SHLVL=1
+++ export CONDA_DEFAULT_ENV=parkinsons-env
+++ CONDA_DEFAULT_ENV=parkinsons-env
+++ export 'CONDA_PROMPT_MODIFIER=(parkinsons-env) '
+++ CONDA_PROMPT_MODIFIER='(parkinsons-env) '
+++ export CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ export _CONDA_ROOT=/Users/maryamhashmi/miniconda3
+++ _CONDA_ROOT=/Users/maryamhashmi/miniconda3
++ __conda_hashr
++ '[' -n '' ']'
++ '[' -n '' ']'
++ hash -r
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Tests)
+[Pipeline] sh
++ . /Users/maryamhashmi/miniconda3/etc/profile.d/conda.sh
+++ export CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ export CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ export _CONDA_ROOT=/Users/maryamhashmi/miniconda3
+++ _CONDA_ROOT=/Users/maryamhashmi/miniconda3
+++ '[' -z '' ']'
+++ export CONDA_SHLVL=0
+++ CONDA_SHLVL=0
+++ '[' -n '' ']'
+++++ dirname /Users/maryamhashmi/miniconda3/bin/conda
++++ dirname /Users/maryamhashmi/miniconda3/bin
+++ PATH=/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin
+++ export PATH
+++ '[' -z '' ']'
+++ PS1=
++ conda activate parkinsons-env
++ local cmd=activate
++ case "$cmd" in
++ __conda_activate activate parkinsons-env
++ '[' -n '' ']'
++ local ask_conda
+++ PS1=
+++ __conda_exe shell.posix activate parkinsons-env
+++ '[' -n '' ']'
+++ /Users/maryamhashmi/miniconda3/bin/conda shell.posix activate parkinsons-env
++ ask_conda='export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+PS1='\''(parkinsons-env) '\''
+export PATH='\''/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin:/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin'\''
+export CONDA_PREFIX='\''/Users/maryamhashmi/miniconda3/envs/parkinsons-env'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''parkinsons-env'\''
+export CONDA_PROMPT_MODIFIER='\''(parkinsons-env) '\''
+export CONDA_EXE='\''/Users/maryamhashmi/miniconda3/bin/conda'\''
+export _CONDA_EXE='\''/Users/maryamhashmi/miniconda3/bin/conda'\''
+export CONDA_PYTHON_EXE='\''/Users/maryamhashmi/miniconda3/bin/python'\''
+export _CONDA_ROOT='\''/Users/maryamhashmi/miniconda3'\'''
++ eval 'export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+PS1='\''(parkinsons-env) '\''
+export PATH='\''/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin:/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin'\''
+export CONDA_PREFIX='\''/Users/maryamhashmi/miniconda3/envs/parkinsons-env'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''parkinsons-env'\''
+export CONDA_PROMPT_MODIFIER='\''(parkinsons-env) '\''
+export CONDA_EXE='\''/Users/maryamhashmi/miniconda3/bin/conda'\''
+export _CONDA_EXE='\''/Users/maryamhashmi/miniconda3/bin/conda'\''
+export CONDA_PYTHON_EXE='\''/Users/maryamhashmi/miniconda3/bin/python'\''
+export _CONDA_ROOT='\''/Users/maryamhashmi/miniconda3'\'''
+++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+++ PS1='(parkinsons-env) '
+++ export PATH=/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin:/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin
+++ PATH=/Users/maryamhashmi/miniconda3/envs/parkinsons-env/bin:/Users/maryamhashmi/miniconda3/condabin:/usr/bin:/bin:/usr/sbin:/sbin
+++ export CONDA_PREFIX=/Users/maryamhashmi/miniconda3/envs/parkinsons-env
+++ CONDA_PREFIX=/Users/maryamhashmi/miniconda3/envs/parkinsons-env
+++ export CONDA_SHLVL=1
+++ CONDA_SHLVL=1
+++ export CONDA_DEFAULT_ENV=parkinsons-env
+++ CONDA_DEFAULT_ENV=parkinsons-env
+++ export 'CONDA_PROMPT_MODIFIER=(parkinsons-env) '
+++ CONDA_PROMPT_MODIFIER='(parkinsons-env) '
+++ export CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ _CONDA_EXE=/Users/maryamhashmi/miniconda3/bin/conda
+++ export CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/Users/maryamhashmi/miniconda3/bin/python
+++ export _CONDA_ROOT=/Users/maryamhashmi/miniconda3
+++ _CONDA_ROOT=/Users/maryamhashmi/miniconda3
++ __conda_hashr
++ '[' -n '' ']'
++ '[' -n '' ']'
++ hash -r
++ pytest --cov=parkinsons_annotator tests/
+============================= test session starts ==============================
+platform darwin -- Python 3.13.2, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/maryamhashmi/.jenkins/workspace/Parkinson-Annotator-Pipeline
+configfile: pyproject.toml
+plugins: cov-7.0.0
+collected 67 items
+
+tests/test_clinvar_fetch.py ..........                                   [ 14%]
+tests/test_data_checks.py .......                                        [ 25%]
+tests/test_data_extraction.py ...........                                [ 41%]
+tests/test_database_search.py ......                                     [ 50%]
+tests/test_db.py .........                                               [ 64%]
+tests/test_main.py .....                                                 [ 71%]
+tests/test_routes.py ..........                                          [ 86%]
+tests/test_variantvalidator_fetch.py .........                           [100%]
+
+=============================== warnings summary ===============================
+tests/test_clinvar_fetch.py::test_fetch_clinvar_id_success
+tests/test_clinvar_fetch.py::test_fetch_clinvar_esummary_empty
+  /Users/maryamhashmi/miniconda3/envs/parkinsons-env/lib/python3.13/site-packages/Bio/Entrez/__init__.py:734: UserWarning: 
+              Email address is not specified.
+  
+              To make use of NCBI's E-utilities, NCBI requires you to specify your
+              email address with each request.  As an example, if your email address
+              is A.N.Other@example.com, you can specify it as follows:
+                 from Bio import Entrez
+                 Entrez.email = 'A.N.Other@example.com'
+              In case of excessive usage of the E-utilities, NCBI will attempt to contact
+              a user at the email address provided before blocking access to the
+              E-utilities.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.13.2-final-0 _______________
+
+Name                                                       Stmts   Miss  Cover
+------------------------------------------------------------------------------
+src/parkinsons_annotator/__init__.py                           0      0   100%
+src/parkinsons_annotator/logger.py                            20      0   100%
+src/parkinsons_annotator/main.py                              52      3    94%
+src/parkinsons_annotator/modules/__init__.py                   0      0   100%
+src/parkinsons_annotator/modules/data_extraction.py          139     19    86%
+src/parkinsons_annotator/modules/database_search.py           54      1    98%
+src/parkinsons_annotator/modules/db.py                        62      3    95%
+src/parkinsons_annotator/modules/models.py                    36      4    89%
+src/parkinsons_annotator/modules/routes.py                    74     11    85%
+src/parkinsons_annotator/utils/__init__.py                     0      0   100%
+src/parkinsons_annotator/utils/clinvar_fetch.py              116     16    86%
+src/parkinsons_annotator/utils/data_checks.py                 26      0   100%
+src/parkinsons_annotator/utils/variantvalidator_fetch.py      88     13    85%
+------------------------------------------------------------------------------
+TOTAL                                                        667     70    90%
+======================= 67 passed, 2 warnings in 32.46s ========================
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+CI pipeline finished.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

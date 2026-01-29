@@ -28,10 +28,13 @@ parkinson-annotator/
 │       │   ├── db.py
 │       │   ├── models.py
 │       │   └── routes.py
+│       ├── static/
+│       │   ├── search.js
+│       │   └── style.css
 │       ├── templates/
 │       │   ├── base.html
-│       │   ├── info.html
-│       │   └── interface_package.html
+│       │   ├── about.html
+│       │   └── index.html
 │       ├──  utils/
 │       │   ├── clinvar_fetch.py
 │       │   ├── data_checks.py
@@ -59,6 +62,7 @@ parkinson-annotator/
 | `parkinsons_annotator.log`          | Rotating log file (not tracked by Git)                       |
 | `src/parkinsons_annotator/`         | Main application source code                                 |
 | `modules/`                          | Core application modules (e.g. database, routes, data extraction)     |
+| `static/`                        | Static assets for the web interface (CSS and JavaScript)               |
 | `templates/`                        | HTML templates used by the Flask web interface               |
 | `utils/`                            | Helper functions for external API access and validation      |
 | `logger.py`                         | Logging configuration                                        |
@@ -170,6 +174,7 @@ Automated tests are located in the `tests/` directory, and use the [pytest](http
 >
 >The testing and coverage dependencies (`pytest`, `pytest-cov`) are not installed by default with:  
 >`conda env create -f environment.yml`.
+>`conda activate parkinsons-env`.
 >  
 >Developers must install these optional dependencies separately:
 >

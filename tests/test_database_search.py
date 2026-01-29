@@ -67,20 +67,21 @@ def seeded_db(db_session):
 
 ### TESTS ###
 
-def test_missing_search_type(db_session):
-    """Raises SearchFieldEmptyError if search_type is not provided."""
+def test_missing_search_category(db_session):
+    """Raises SearchFieldEmptyError if search_category is not provided."""
     with pytest.raises(SearchFieldEmptyError):
-        database_list(search_type=None, search_value="x")
+        database_list(search_category=None, search_value="x")
 
 
 def test_search_variant(seeded_db):
     """Variant search returns Variant object within patient list: [(VariantORM, "Alice"), (VariantORM, "Bob")]"""
-    results = database_list(search_type="variant", search_value="NM_000111.1:c.100A>T")
+    results = database_list(search_category="variant", search_value="NM_000111.1:c.100A>T")
 
     # Search produces patient list with length 2
     assert len(results) == 2  # Alice + Bob
     # Get results from first tuple (VariantORM, "Alice")
-    variant_obj, patient = results[0]
+    variant_obj = results[0].Variant  # Access Variant ORM object
+    patient = results[0].name  # Access patient name
 
     # Check that VariantORM is a real ORM object has expected attributes of a variant, i.e. HGVS notation
     assert hasattr(variant_obj, "hgvs")
@@ -91,7 +92,7 @@ def test_search_variant(seeded_db):
 def test_search_gene_symbol(seeded_db):
     """Gene symbol search returns all fields correctly"""
     # Search for "GENE1"
-    results = database_list(search_type="gene_symbol", search_value="GENE1")
+    results = database_list(search_category="gene_symbol", search_value="GENE1")
 
     # Appropriate length of patient list
     assert len(results) == 2  # Alice + Bob
@@ -112,7 +113,7 @@ def test_search_gene_symbol(seeded_db):
 def test_search_patient(seeded_db):
     """Patient search returns all variants correctly"""
     # Search for "Alice"
-    results = database_list(search_type="patient_name", search_value="Alice")
+    results = database_list(search_category="patient_name", search_value="Alice")
 
     # Alice has both variants
     assert len(results) == 2
@@ -133,7 +134,7 @@ def test_search_patient(seeded_db):
 def test_search_classification(seeded_db):
     """Classification search returns all variants correctly"""
     # Search for "Pathogenic"
-    results = database_list(search_type="classification", search_value="None", search_cat="Pathogenic")
+    results = database_list(search_category="classification", search_value="None", search_classification="Pathogenic")
 
     # One variant is pathogenic
     assert len(results) == 1
@@ -151,12 +152,12 @@ def test_no_match_raises(seeded_db):
         ("classification", None, "FakeClassification")
     ]
 
-    for search_type, search_value, search_cat in search_cases:
+    for search_category, search_value, search_classification in search_cases:
         with pytest.raises(NoMatchingRecordsError):
             database_list(
-                search_type=search_type,
+                search_category=search_category,
                 search_value=search_value,
-                search_cat=search_cat
+                search_classification=search_classification
             )
 
 

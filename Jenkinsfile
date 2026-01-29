@@ -1,4 +1,3 @@
-// Jenkinsfile
 // Language: Groovy (Declarative Pipeline)
 // This file defines a CI pipeline using Jenkins, for the Parkinson's Annotator project.
 // This pipeline checks the repository, sets up a Conda environment, installs the package, and runs tests using pytest.
@@ -9,7 +8,7 @@ pipeline {
     agent any
 
     environment {
-        CONDA_PREFIX = '/Users/naimaabdi/opt/miniconda3'  // Path to Conda installation
+	CONDA_PREFIX = sh(script: 'find $HOME /opt -maxdepth 2 -type d \\( -name "miniconda3" -o -name "anaconda3" \\) 2>/dev/null | head -1', returnStdout: true).trim() // Path to Conda installation
         CONDA_ENV_NAME = 'parkinsons-env'  // Name of the Conda environment to create
         PIP_DISABLE_PIP_VERSION_CHECK = '1'  // Disable pip version check warnings
         PYTHONUNBUFFERED = '1'  // Ensure real-time, unbuffered output from Python 

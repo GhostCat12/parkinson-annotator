@@ -3,9 +3,7 @@ To install, start, and close the Parkinson's Annotator program, please refer to 
 [installation manual](INSTALLATION.md).
 ## Starting Up
 When the Parkinson's Annotator program starts, it will open to the **Search Page**.
-If it doesn't, there is a **Search** button in the top left-hand corner
-![search button](manual_images/SearchButton.png) 
-which directs to the **Search Page**.
+If it doesn't, there is a **Search** button in the top left-hand corner which directs to the **Search Page**.
 
 ## Uploading    Data
 In the top right-hand corner of the Search page, there is a **Choose file** button
@@ -24,12 +22,12 @@ The upload function has built in checks, to ensure that if the same patient
 data is uploaded twice, then the data won't be duplicated. If this happens a
 pop-up will appear explaining this:
 
-![failed upload](manual_images/PatientAlreadyExists.png)
+<img src="manual_images/PatientAlreadyExists.png" alt="Failed upload" width="371" height="150">
 
-If the patient data being uploaded is no in the database, then once it has
-been uploaded a pop-up will appear explaining this:
+If the patient data being uploaded is not in the database, then once it has
+been uploaded, a pop-up will appear explaining this:
 
-![successful upload](manual_images/UploadSuccessful.png)
+<img src="manual_images/UploadSuccessful.png" alt="successful upload" width="371" height="150">
 
 ## Searching the Dataset
 To use the **Search** function, a category must be selected from the
@@ -38,6 +36,8 @@ and what information should be returned. The search categories are: Variant,
 Gene Symbol, Patient Name, and Classification. A brief overview of what inputs and
 outputs are associated with each search category is given below the search bar on
 the search page.
+
+![search categories](manual_images/SearchCategories.png)
 
 If Variant, Gene Symbol or Patient Name searches are selected, type or paste the
 input into the search box, then click **Search** or press **Enter** on your keyboard.
@@ -54,11 +54,10 @@ NM_000345.4:c.247G>C).
 The input is NOT case-sensitive, but does have to be exactly correct in terms of
 values, otherwise the search will return 'No matching records found'.
 
-**Output:** The first statement in the output reiterates the search made (e.g.
-'Patients with variant [variant searched]:'). 
-Below this there will be a list of all the patients in the
-dataset with that variant. 
-Below that there will be the header, 'Variant Information',
+**Output:** The left statement in the results reiterates the search made (e.g.
+Patients with variant [variant searched]:). 
+Below this, there will be a list of all the patients in the dataset with that variant. 
+On the right will be the header, 'Variant Information',
 followed by a table showing all the associated ClinVar information (stored within the
 database):
 + Associated condition
@@ -80,12 +79,14 @@ Example:<br>
 **Input:** Gene symbol. Note that searching the gene name or other variant notation
 format will not yield any results. The search is NOT case-sensitive.
 
-**Output:** The first statement in the output reiterates the search made (e.g.
-'Patient variants found in gene [gene searched]:'). 
+**Output:** The statement in the output reiterates the search made (e.g.
+Patient variants found in gene [gene searched]:). 
 Below this there will be a table that summarises: 
 + Patients with variants in that gene
 + The specific variant in that gene for each patient, in HGVS notation
 + Classification of the variant
+
+On the right, a pie chart showing the percentage distribution of variant classifications within this gene.
 
 Example:<br>
 ![gene symbol search example](manual_images/GeneSearch.png)
@@ -96,11 +97,13 @@ all patients in the dataset type 'patient' into the search bar. The
 search is NOT case-sensitive.
 
 **Output:** The first statement in the output reiterates the search made (e.g.
-'Variants identified in [patient name search]:'). 
+Variants identified in [patient name search]:). 
 Below this will be a table summarising:
 + All variants for that patient (in HGVS format)
 + The associated gene symbol for each variant
 + The classification of each variant
+
+On the right, a pie chart showing the percentage distribution of variant classifications for the patient.
 
 If the search is for all patients, the first statement in the output will be
 'Variants found in all patients', with all variants in the database summarised in
@@ -113,11 +116,13 @@ Example:<br>
 **Input:** Select a classification from the list in the drop-down menu.
 
 **Output:** The first statement in the output will reiterate the search made (e.g.
-'Patient variants with ClinVar classification: [classification search]:'). If the
+Patient variants with ClinVar classification: [classification search]:). If the
 classification selected is 'Not Found in Clinvar', the first statement in the output will
 read, 'Patient variants which were not identified in ClinVar:'. Below this will be a
-single-column table showing all variants in the database with that specific classification
-(in HGVS format).
+table showing all variants in the database with that specific classification
+(in HGVS format) and the associated gene.
+
+On the right, a pie chart displays the proportion of variants contributed by each gene within that classification.
 
 Examples:<br>
 ![successful classification search example](manual_images/PathogenicSearch.png)

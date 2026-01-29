@@ -4,6 +4,10 @@ services:
     container_name: parkinsons-annotator
     # image to use for container
     image: parkinsons-annotator:latest
+
+    mem_limit: 2g
+    mem_reservation: 512m
+
     # uses image built from Dockerfile in current directory
     build: .
     # local port 8000 mounted to container port 5000

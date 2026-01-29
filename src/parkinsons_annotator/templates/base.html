@@ -1,14 +1,42 @@
 <!doctype html>
 <html>
+
   <head>
-    <title>{% block title %}Parkinson Annotator{% endblock %}</title>
+    <title>Parkinson Annotator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- load custom font -->
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css" />
+    <!-- load MUI -->
+    <link href="//cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <meta charset="UTF-8">
   </head>
+  
   <body>
-    <nav>
-      <a href="/">Search</a> | <a href="/about">About</a>
-    </nav>
+    <header class="mui-appbar mui--z1">
+        <table>
+          <tr class="mui--appbar-height">
+            <td class="mui--text-title">Parkinson Annotator</td>
+            <td class="mui--text-right">
+              <ul class="mui-list--inline mui--text-body2">
+                <li><a href="/">Search</a></li>
+                <span>&nbsp; | &nbsp;</span>
+                <li><a href="/about">About</a></li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+    </header>
     <div id="content">
       {% block content %}{% endblock %}
     </div>
   </body>
+
 </html>

@@ -25,16 +25,6 @@ Change directory to the root of the repository to continue installation:
 cd parkinson-annotator
 ```
 
-## Create local directories
-Create local directories used for persistent data:
-```bash
-mkdir -p src/instance src/logs
-```
-These directories will be mounted into the Docker container and used for:
-- The SQLite database 
-- Files uploaded via the app interface
-- Application logs
-
 ## Set environment variables
 Modify the .env file to set the environment variables:
 - Rename .env.example to .env  

@@ -170,6 +170,7 @@ Automated tests are located in the `tests/` directory, and use the [pytest](http
 >
 >The testing and coverage dependencies (`pytest`, `pytest-cov`) are not installed by default with:  
 >`conda env create -f environment.yml`.
+>`conda activate parkinsons-env`.
 >  
 >Developers must install these optional dependencies separately:
 >

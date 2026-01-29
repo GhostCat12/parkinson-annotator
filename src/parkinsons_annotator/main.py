@@ -95,7 +95,7 @@ def main():
                 logger.error(f"Failed to load initial data: {e}")
 
     # Open browser after 1 second if running locally
-    if os.getenv("IN_DOCKER") != "true":
+    if not os.getenv("IN_DOCKER"):
         threading.Timer(1, open_browser).start()
     else:
         logger.info("App available at http://localhost:8000")

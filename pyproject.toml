@@ -43,7 +43,10 @@ requires = ["setuptools>=61.0",     # Using setuptools for build backend
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.package-data]
-"parkinsons_annotator" = ["templates/*"]
+"parkinsons_annotator" = [
+    "templates/*",
+    "static/*"
+]
 
 
 [tool.pytest.ini_options]
